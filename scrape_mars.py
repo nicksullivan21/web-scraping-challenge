@@ -1,5 +1,6 @@
 # Dependencies
 import pandas as pd 
+import datetime as dt 
 from splinter import Browser
 from bs4 import BeautifulSoup as bs 
 
@@ -7,10 +8,26 @@ def init_browser():
     executable_path = {'executable_path': '/usr/local/bin/chromedriver'}
     return Browser('chrome', **executable_path, headless=False)
 
-def scrape_info():
+# Scrape
+def scrape():
     browser = init_browser()
+
+    newsTitle, newsText = mars_news(browser)
     
-    # NASA Mars News
+    mars_info = {
+        "newsTitle": newsTitle,
+        "newsText": newsText,
+        "featured_image_url": featured_image_url(browser),
+        "facts": mars_facts(browser),
+        "four_hemispheres": mars_hemispheres(browser),
+        "last_modified": dt.datetime.now()
+    }
+
+    browser.quit()
+    return mars_info
+    
+# NASA Mars News
+def mars_news(browser):
     url = 'https://mars.nasa.gov/news/'
     browser.visit(url)
     html = browser.html
@@ -20,7 +37,10 @@ def scrape_info():
     newsTitle = news.find('div', class_='content_title').text
     newsText = soup.find('div', class_='article_teaser_body').text
 
-    # JPL Mars Space Images - Featured Image
+    return newsTitle, newsText
+
+# JPL Mars Space Images - Featured Image
+def featured_image_url(browser):
     url = 'https://data-class-jpl-space.s3.amazonaws.com/JPL_Space/index.html'
     base_url = 'https://data-class-jpl-space.s3.amazonaws.com/JPL_Space/'
     browser.visit(url)
@@ -30,7 +50,10 @@ def scrape_info():
     relative_image_path = soup.find_all('img')[1]['src']
     featured_image_url = base_url + relative_image_path
 
+    return featured_image_url
+
     # Mars Facts
+def mars_facts(browser):
     url = 'https://space-facts.com/mars/'
     table = pd.read_html(url)
     mars_table = table[0]
@@ -39,7 +62,10 @@ def scrape_info():
     mars_table = mars_table.to_html()
     mars_table.replace('\n','')
 
-    # Mars Hemispheres
+    return mars_table
+
+# Mars Hemispheres
+def mars_hemispheres(browser):
     url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
     base_url = 'https://astrogeology.usgs.gov'
     browser.visit(url)
@@ -65,12 +91,4 @@ def scrape_info():
 
         hemisphere_image_urls.append(hemisphere_dict)
 
-# Store data in dictionary
-    mars_data = {
-        'newsTitle': newsTitle,
-        'newsText': newsText,
-        'featured_image_url': featured_image_url,
-        'hemisphere_image_urls': hemisphere_image_urls
-    }
-
-    return mars_data
+    return hemisphere_image_urls
