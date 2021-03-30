@@ -13,20 +13,20 @@
     <div class="container">
 
         <div class="jumbotron text-center">
-            <h1>Mission to Mars</h1>
+            <h1 class="font-weight-bold">Mission to Mars</h1>
             <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
         </div>
         
         <!-- Mars News -->
         <div class="row">
             <div class="col-md-12">
-                <h2>Latest Mars News</h2>
+                <h2 class="font-weight-bold">Latest Mars News</h2>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-12">
-                <h4>{{mars_info.newsTitle}}</h4>
+                <h5>{{mars_info.newsTitle}}</h5>
                 <p>{{mars_info.newsText}}</p>
             </div>
         </div>
@@ -34,28 +34,32 @@
         <!-- Featured Mars Image -->
         <div class="row">
             <div class="col-md-8">
-                <h3 class="font-weightbold">Featured Mars Image</h3>
+                <h3 class="font-weight-bold">Featured Mars Image</h3>
                 <img src="{{mars_info.featured_image_url}}" class="w-100 h-100 img-fluid" alt="Featured Mars Image">
             </div>
         
             <!-- Mars Facts -->
             <div class="col-md-4">
-                <h3>Mars Facts</h3>
+                <h3 class="font-weight-bold">Mars Facts</h3>
                 <div class="table table-bordered table-sm table-responsive">
                 {{mars_info.facts | safe}}
                 </div>
             </div>
         </div>
 
+        <br>
+        <br>
+        <br>
+
         <!-- Mars Hemispheres -->
         <div class="row">
             <div class ="col-md-8 offset-4">
-                <h2 class="align-items-center">Mars Hemispheres</h2>
+                <h2 class="font-weight-bold" class="align-items-center">Mars Hemispheres</h2>
             </div>
         </div>
         <div class="container">
             <div class="row justify-content-around">
-                {% for hemisphere in mars_info.four_hemispheres %}
+                {% for hemisphere in mars_info.hemisphere_images %}
                 <div class="col-md-6">
                     <div class="card m-2">
                         <img class="card-img-top img-fluid" src="{{hemisphere.img_url}}" alt="Mars Hemisphere">
