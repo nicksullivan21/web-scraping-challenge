@@ -14,7 +14,7 @@
 
         <div class="jumbotron text-center">
             <h1>Mission to Mars</h1>
-            <p><a class="btn btn-primary btn-lg" href="../scrape" role="button">Scrape New Data</a></p>
+            <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
         </div>
         
         <!-- Mars News -->
@@ -37,9 +37,22 @@
                 <h3 class="font-weightbold">Featured Mars Image</h3>
                 <img src="{{mars_info.featured_image_url}}" class="w-100 h-100 img-fluid" alt="Featured Mars Image">
             </div>
+        
+            <!-- Mars Facts -->
+            <div class="col-md-4">
+                <h3>Mars Facts</h3>
+                <div class="table table-bordered table-sm table-responsive">
+                {{mars_info.facts | safe}}
+                </div>
+            </div>
         </div>
 
         <!-- Mars Hemispheres -->
+        <div class="row">
+            <div class ="col-md-8 offset-4">
+                <h2 class="align-items-center">Mars Hemispheres</h2>
+            </div>
+        </div>
         <div class="container">
             <div class="row justify-content-around">
                 {% for hemisphere in mars_info.four_hemispheres %}
@@ -57,6 +70,5 @@
     </div>
 
 </body>
-
 
 </html>

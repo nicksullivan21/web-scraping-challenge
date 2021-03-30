@@ -18,9 +18,8 @@ def scrape():
         "newsTitle": newsTitle,
         "newsText": newsText,
         "featured_image_url": featured_image_url(browser),
-        "facts": mars_facts(browser),
-        "four_hemispheres": mars_hemispheres(browser),
-        "last_modified": dt.datetime.now()
+        "facts": mars_table(browser),
+        "hemisphere_images": hemisphere_images(browser),
     }
 
     browser.quit()
@@ -52,8 +51,8 @@ def featured_image_url(browser):
 
     return featured_image_url
 
-    # Mars Facts
-def mars_facts(browser):
+# Mars Facts
+def mars_table(browser):
     url = 'https://space-facts.com/mars/'
     table = pd.read_html(url)
     mars_table = table[0]
@@ -65,7 +64,7 @@ def mars_facts(browser):
     return mars_table
 
 # Mars Hemispheres
-def mars_hemispheres(browser):
+def hemisphere_images(browser):
     url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
     base_url = 'https://astrogeology.usgs.gov'
     browser.visit(url)
